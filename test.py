@@ -1,19 +1,15 @@
 from edgy import *
 from pylab import *
+from sys import argv
 
 
-lena = imread('/home/ftruzzi/ciencia/DADOS/yorkurban/frames/P1020822.jpg')
+lena = imread(argv[1])
 lena = flipud(lena)
 a = Canny(lena)
-show()
 
+subplot(121)
+imshow(a.test,  cm.gist_gray, interpolation='nearest')
+lena = imread("/home/ftruzzi/Desktop/nonmaximum1.png")
+subplot(122)
+imshow(lena,  cm.gist_gray, interpolation='nearest')
 
-figure(1)
-title("test")
-imshow(a.test, cm.gist_gray)
-figure(2)
-title("mag")
-imshow(a.mag, cm.gist_gray)
-figure(3)
-title("diff")
-imshow(a.test-a.mag, cm.gist_gray)

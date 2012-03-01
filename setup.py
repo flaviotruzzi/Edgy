@@ -4,5 +4,5 @@ from Cython.Distutils import build_ext
 
 setup(
     cmdclass = {'build_ext': build_ext},
-    ext_modules = [Extension("edgy", ["edgy.pyx"])]
+    ext_modules = [Extension("aux_func", ["aux_func.pyx"]),Extension("edgy", ["edgy.pyx"])]
 )

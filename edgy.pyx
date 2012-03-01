@@ -43,23 +43,36 @@ class Canny:
     self.mag = np.hypot(self.gradx, self.grady)  
     self.theta = (np.arctan2(self.grady, self.gradx)+np.pi)*180.0/np.pi   
 
+    self.theta2 = self.theta.copy()
+
     self.theta[np.where(
-      ((self.theta >= 0) & (self.theta < 22.5)) |
-      ((self.theta >= 157.5) & (self.theta < 202.5)) |
-      (self.theta >= 337.5)) ] = 0
-    self.theta[np.where(
-      ((self.theta >= 67.5) & (self.theta < 112.5)) |
-      ((self.theta >= 247.5) & (self.theta < 292.5)))] = 90
-    self.theta[np.where(
-      ((self.theta >= 22.5) & (self.theta < 67.5)) |
-      ((self.theta >= 202.5) & (self.theta < 247.5)))] = 45
-    self.theta[np.where(
-      ((self.theta >= 112.5) & (self.theta < 157.5)) |
-      ((self.theta >= 292.5) & (self.theta < 337.5)))] = 135
+      ((self.theta >= 0) & (self.theta < 45)) |
+      ((self.theta >= 315) & (self.theta < 360)) |
+      ((self.theta >= 135) & (self.theta < 225)))] = 0
+    self.theta[np.where(self.theta != 0)] = 90
+
+    self.theta2[np.where(
+      ((self.theta2 >= 0) & (self.theta2 < 22.5)) |
+      ((self.theta2 >= 157.5) & (self.theta2 < 202.5)) |
+      (self.theta2 >= 337.5)) ] = 0
+    self.theta2[np.where(
+      ((self.theta2 >= 67.5) & (self.theta2 < 112.5)) |
+      ((self.theta2 >= 247.5) & (self.theta2 < 292.5)))] = 90
+    self.theta2[np.where(
+      ((self.theta2 >= 22.5) & (self.theta2 < 67.5)) |
+      ((self.theta2 >= 202.5) & (self.theta2 < 247.5)))] = 45
+    self.theta2[np.where(
+      ((self.theta2 >= 112.5) & (self.theta2 < 157.5)) |
+      ((self.theta2 >= 292.5) & (self.theta2 < 337.5)))] = 135
     
     # Non maximum supression
     self.test = self.mag.copy()
-    self.test = aux_func.NMS(self.test,self.theta,50)
+    self.test2 = self.mag.copy()
+
+    self.saida = np.zeros(self.mag.shape)
+
+    #self.test = aux_func.NMS(self.test,self.theta,50)
+    self.saida = aux_func.NMS(self.test2,self.saida,self.theta2,50)
     
     
   def convert2Gray(self, image):
